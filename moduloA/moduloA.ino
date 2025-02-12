@@ -13,8 +13,7 @@
     #define pinTX    4//rx apc220
     #define pinSET   2  //set apc220
     //variávies
-    bool readDone=false;
-    
+    //bool leitura=false;
     
   SoftwareSerial apc220(pinRX, pinTX); //defenir os pins tx e rx do apc220
 
@@ -22,54 +21,70 @@
       pinMode(pinSET, HIGH); 
       apc220.begin(9600);
   }
-                                                   //Caso eu queria meter no modo write meto setEnviar();
+  //sintoniza com 400MHZ ou groundstation                                                
   void setEnviar(void){
     digitalWrite(pinSET, LOW);     //  config mode
     delay(10);                     
-    apc220.println("WR 437000 3 9 3 0"); // configurações
-    delay(10);
+    apc220.println("WR 433825 3 9 3 0"); // configurações
+    delay(30);
+    //Serial.println("setEnviar: ");
     while (apc220.available()) {
         Serial.write(apc220.read());
     }
+    //Serial.println("");
+    //Serial.println("AcabouE.");
     digitalWrite(pinSET, HIGH); // put apc220 back in operation
-    delay(10);
+    delay(100);
   }  
-                                                   //Caso eu queria meter no modo read meto setReceber();
+  //sintoniza com 434,35MHZ ou modulo B                                   
   void setReceber(void) {
     digitalWrite(pinSET, LOW); // config mode
     delay(10);
-    apc220.println("WR 434000 3 9 3 0"); // config
-    delay(10); 
+    apc220.println("WR 434350 3 9 3 0"); // config
+    delay(30); 
+    //Serial.println("setReceber: ");
     while (apc220.available()) {
         Serial.write(apc220.read());
     }
+    //Serial.println("");
+    //Serial.println("AcabouR.");
     digitalWrite(pinSET, HIGH); // ativar a antena
-    delay(10);
+    delay(100);
   }
-
-
 //***********************************************************************************************SETUP*************************************************************
     void setup(){
+    Serial.begin(19200);
     setup_apc();
     setReceber();
-    //Serial.begin(9600);
+    //setEnviar();
     }
 //***********************************************************************************************LOOP*************************************************************
   void loop() {
-    if (readDone){
-        setReceber();
-        readDone=false;//para evitar meter no modo read desnecessáriamente
-    }
-      
-    if (apc220.available()) { 
-        String receivedData = Serial.readString(); // le a mensagem toda
-        setEnviar();
-        apc220.println(receivedData);
-        readDone=true;
-    }
-    
+    //Envia sem #final
+    String receivedData = "";
+    // Data 434350 KHz
+    if (apc220.available()) {
+        receivedData = apc220.readStringUntil('#');   
+        //receivedData+='#';//adiciona o # no final pois ele não é lido
+        Serial.println(receivedData);
 
-
+        if (receivedData.length() > 0) {
+          //Modo Transmitir 400000 kHz
+            setEnviar();
+            
+            //Serial.println(receivedData);
+            apc220.println(receivedData);
+            delay(100);
+            
+            //mensagem ja foi transmitida e volta a sintonizar com 434350 kHz
+            setReceber();
+        } 
+    }
+ }
+/*na primeria vez se nao receber mensagem nenhuma ,sobra me 870 milesimos de segundo para que o codigo corra sozinho ,
+ o codigo demora 130 milesimas para estabilizar*/
+//se receber mensagem sobra me 740 , sou seja 260 para estabilizar o codigo 
+// se tudo correr bem o tempo minimo sao 260 milissegundos, recebendo mesnagem sobrando 740 ms para enviar e processar a mensagem
 
 
 

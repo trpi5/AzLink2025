@@ -51,10 +51,10 @@ SoftwareSerial apc220(pinRX, pinTX); //defenir os pins tx e rx do apc220
     while (!apc220);
       apc220.println("Ligacao estabelecida");
       if (! bmp.begin_SPI(BMP_CS, BMP_SCK, BMP_MISO, BMP_MOSI)) { //SPI mode usa portas 10 11 12 13 
-        apc220.println("BAROMETRO nao conectado.");
+        apc220.println("BAROMETRO nao conectado.");//alterar para E1 por exemplo
         while (1);
       }else{
-        apc220.println(" BMP388 BAROMETRO ");
+        apc220.println(" BMP388 BAROMETRO ");//alterar para E1 por exemplo
       }
       bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_8X);
       bmp.setPressureOversampling(BMP3_OVERSAMPLING_4X);
@@ -77,7 +77,7 @@ SoftwareSerial apc220(pinRX, pinTX); //defenir os pins tx e rx do apc220
     char mensagem[15];
     sprintf(mensagem, ";%d_%s|%s|%s|#", x, tempStr, presStr, altStr);//mensagem a enviar
     apc220.println(mensagem);
-    delay(1000);
+    delay(100);
 }
 
 
