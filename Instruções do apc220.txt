@@ -1,0 +1,20 @@
+Frequency: Unit is KHz,for example 434MHz is 434000
+RF Data Rate: 1,2,3 and 4 refer to 2400,4800,9600,19200bps
+Output Power: 0 to 9, 9 means 13dBm(20mW)
+UART Rate: 0,1,2,3,4,5 and 6 refers to 1200,2400,4800,9600, 19200,38400,57600bps
+Series Checkout: Series checkout:0 means no check,1 means even parity,2 means odd parity.
+WR é para definir as definições
+RD é para verificar as definições, não há modo especifico de read ou write
+
+1.WR
+void setSettings(void){
+digitalWrite(pinSET, LOW); delay(10);
+apc220.println("WR 433900 3 9 3 0");
+delay(10);
+
+2.RD
+void getSettings(void) {
+digitalWrite(pinSET, LOW); 
+delay(10); apc220.println("RD");
+
+usa-se o RD quando eu preciso de uma condição do tipo if (getSetting()=="340000 3 9 3 0") então faz algo.
