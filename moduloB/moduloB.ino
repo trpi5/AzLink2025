@@ -21,8 +21,9 @@
     #define BMP_CS   11  //csb
     #define BMP_MISO 10 // sdo
     //variávies
-    #define SEALEVELPRESSURE_HPA (pressaoNoMar)
     #define  pressaoNoMar  1032.2//alterar para calibrar no momento
+    #define SEALEVELPRESSURE_HPA (pressaoNoMar)
+
     int x=0;
 
 Adafruit_BMP3XX bmp;//inicio da biblioteca do barometro
@@ -46,15 +47,16 @@ SoftwareSerial apc220(pinRX, pinTX); //defenir os pins tx e rx do apc220
   }
 //***********************************************************************************************SETUP*************************************************************
     void setup(){
+    //Serial.begin(9600);
     setup_apc();
     modoEnviar();
     while (!apc220);
-      apc220.println("Ligacao estabelecida");
+      apc220.println("Ligacao estabelecida");//alterar para V1
       if (! bmp.begin_SPI(BMP_CS, BMP_SCK, BMP_MISO, BMP_MOSI)) { //SPI mode usa portas 10 11 12 13 
         apc220.println("BAROMETRO nao conectado.");//alterar para E1 por exemplo
         while (1);
       }else{
-        apc220.println(" BMP388 BAROMETRO ");//alterar para E1 por exemplo
+        apc220.println(" BMP388 BAROMETRO ");//alterar para V2 por exemplo
       }
       bmp.setTemperatureOversampling(BMP3_OVERSAMPLING_8X);
       bmp.setPressureOversampling(BMP3_OVERSAMPLING_4X);
@@ -64,7 +66,7 @@ SoftwareSerial apc220(pinRX, pinTX); //defenir os pins tx e rx do apc220
 //***********************************************************************************************LOOP*************************************************************
     void loop(){
     if (! bmp.performReading()) {
-      apc220.println("Leitura incorreta: ");
+      apc220.println("Leitura incorreta: ");//alterar para E10 por exemplo
       return;
     }
     x=x+1;//numero da leitura
@@ -77,7 +79,7 @@ SoftwareSerial apc220(pinRX, pinTX); //defenir os pins tx e rx do apc220
     char mensagem[15];
     sprintf(mensagem, ";%d_%s|%s|%s|#", x, tempStr, presStr, altStr);//mensagem a enviar
     apc220.println(mensagem);
-    delay(100);
+    delay(500);
 }
 
 
