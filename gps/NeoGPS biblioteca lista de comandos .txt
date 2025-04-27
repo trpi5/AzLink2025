@@ -1,0 +1,57 @@
+NeoGPS Library Commands
+
+
+
+Basic GPS Data
+
+fix.latitude() - Returns latitude in degrees.
+
+fix.longitude() - Returns longitude in degrees.
+
+fix.altitude() - Returns altitude in meters.
+
+fix.speed_kph() - Returns speed in kilometers per hour.
+
+fix.speed_mph() - Returns speed in miles per hour.
+
+fix.heading() - Returns heading in degrees.
+
+fix.satellites - Returns number of satellites in use.
+
+
+
+Date & Time
+
+fix.dateTime.year - Returns the year.
+
+fix.dateTime.month - Returns the month.
+
+fix.dateTime.day - Returns the day.
+
+fix.dateTime.hours - Returns the hour (UTC).
+
+fix.dateTime.minutes - Returns the minutes.
+
+fix.dateTime.seconds - Returns the seconds.
+
+
+
+Satellite Data
+
+fix.satellites - Returns number of satellites in use.
+
+fix.hdop() - Returns horizontal dilution of precision (accuracy).
+
+
+
+Validation Checks
+
+fix.valid.location - Returns true if location data is valid.
+
+fix.valid.altitude - Returns true if altitude data is valid.
+
+fix.valid.speed - Returns true if speed data is valid.
+
+fix.valid.heading - Returns true if heading data is valid.
+
+fix.valid.dateTime - Returns true if date and time data are valid.

@@ -1,9 +1,9 @@
-#include <NMEAGPS.h>
+#include <NMEAGPS.h> //neogps
 #include <SoftwareSerial.h>
 
 #define RXPin 3
 #define TXPin 2
-#define gpsB 9600
+#define gpsBnd 9600
 
 SoftwareSerial gpsSerial(RXPin, TXPin);
 NMEAGPS gps;
@@ -11,7 +11,7 @@ gps_fix fix; //valor do gps fixo a um satelite (conectado)
 
 void setup() {
   Serial.begin(9600);
-  gpsSerial.begin(gpsB);
+  gpsSerial.begin(gpsBnd);
   Serial.println("espera de conectar...");
 }
 
